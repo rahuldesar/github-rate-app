@@ -167,9 +167,9 @@ const RepositoryList = () => {
       <View style={styles.flexContainer}>
         <Image source={{uri : item.ownerAvatarUrl}} style = {imageStyles.thumbnail} />
         <View style={{paddingLeft:15 , alignItems:'flex-start', ...styles.flexContainerCardContent }}>
-          <Text fontSize='subheading' fontWeight='bold'>{item.fullName}</Text>
-          <Text color='textSecondary'>{item.description}</Text>
-          <Text style={styles.languageStyle}>{item.language}</Text>
+          <Text fontSize='subheading' fontWeight='bold' style={{marginBottom : 5, fontFamily:'arial'}}>{item.fullName}</Text>
+          <Text color='textSecondary' fonts='fontFamily' style={{marginBottom : 8}}>{item.description}</Text>
+          <Text fonts='fontFamily' style={{...styles.languageStyle , marginBottom:5}}>{item.language}</Text>
         </View>
       </View>
       <View style={{...cardFooterStyles.cardFooterFlexContainer, marginTop: 20}}> 

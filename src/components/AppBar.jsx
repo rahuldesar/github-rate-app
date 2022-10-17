@@ -1,10 +1,15 @@
-import { View ,Pressable ,Text ,StyleSheet, Alert } from "react-native";
+import { View ,StyleSheet, ScrollView } from "react-native";
+
+import AppBarTab from "./AppBarTab";
+
 import Constants from 'expo-constants';
 import theme from "../theme";
+
 
 const styles = StyleSheet.create({
   container : {
     paddingTop : Constants.statusBarHeight + 10,
+    flexDirection: 'row',
   },
   appBarTheme : {
     backgroundColor: theme.colors.primary,
@@ -18,16 +23,15 @@ const styles = StyleSheet.create({
 
 })
 
-const handleGoToRepo = ()  => {
-  Alert.alert('YOU PRESSED REPO');
-}
 
 const AppBar = () => {
-  return <View style={{...styles.container, ...styles.appBarTheme}}> 
-    <Pressable  onPress={handleGoToRepo}> 
-      <Text style={styles.appBarTexts}> Repositories </Text>
-    </Pressable>
-  </View>
-}
+  return (
+    <View style={{...styles.container, ...styles.appBarTheme}}> 
+      <ScrollView horizontal> 
+        <AppBarTab styles={styles}/>
+      </ScrollView>
+    </View>
+  );
+};
 
 export default AppBar;
