@@ -5,26 +5,25 @@ const AppBarTab = ({styles})  => {
 
   return (
     <>
+      
       <Pressable  > 
         <Link to="/">
           <Text style={styles.appBarTexts}> Repositories </Text>
         </Link> 
       </Pressable>
+      
       <Pressable>
         <Link to="/signin">
           <Text style={styles.appBarTexts}> Sign in </Text>
         </Link>  
       </Pressable>
+      
       <Pressable  > 
         <Link to="/platformInfo">
           <Text style={styles.appBarTexts}> PlatformInfo </Text>
         </Link> 
       </Pressable>
-      <Pressable  > 
-        <Link to="/queries">
-          <Text style={styles.appBarTexts}> QueriesData </Text>
-        </Link> 
-      </Pressable>
+
     </>
     
   )

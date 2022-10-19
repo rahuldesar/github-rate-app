@@ -1,10 +1,10 @@
 import { useState } from 'react';
+import { useQuery } from '@apollo/client';
 
+import { GET_REPOSITORIES } from '../graphql/queries';
 import { FlatList, View, StyleSheet , Image } from 'react-native';
 import Text from './Text';
 import theme from '../theme';
-import { useQuery } from '@apollo/client';
-import { GET_REPOSITORIES } from '../graphql/queries';
 
 const styles = StyleSheet.create({
   container : {
@@ -77,11 +77,12 @@ const get1kcount = ( value )  => {
 
 
 const RepositoryList = () => {
+  // eslint-disable-next-line no-unused-vars
   const [repositories, setRepositories] = useState();
   console.log('💀 ~ file: RepositoryList.jsx ~ line 11 ~ RepositoryList ~ repositories', repositories)
+  // eslint-disable-next-line no-unused-vars
   const {data, error, loading } =  useQuery(GET_REPOSITORIES, {
     fetchPolicy: 'cache-and-network',
-    // Other options
   });
 
   if(loading) {
@@ -90,15 +91,6 @@ const RepositoryList = () => {
     )
   }
   console.log(data);
-
-  // const fetchRepositories = async () => {
-    
-  //   const response = await fetch('http://192.168.68.63:5000/api/repositories');
-  //   const json = await response.json();
-
-  //   console.log(json);
-  //   setRepositories(json);
-  // };
 
 
   // Get the nodes from the edges array
@@ -109,6 +101,7 @@ const RepositoryList = () => {
 
   const renderItem = ({ item }) => (
     <View style ={ styles.repoCard}>
+
       {/*  Display Project image, Project Name, Project Description and Language used */}
       <View style={styles.flexContainer}>
         <Image source={{uri : item.ownerAvatarUrl}} style = {imageStyles.thumbnail} />
@@ -118,6 +111,7 @@ const RepositoryList = () => {
           <Text fonts='fontFamily' style={{...styles.languageStyle , marginBottom:5}}>{item.language}</Text>
         </View>
       </View>
+
       {/*  Display counts for Stars, Forks, Reviews adnd Rating*/}
       <View style={{...cardFooterStyles.cardFooterFlexContainer, marginTop: 20}}> 
         <View style={cardFooterStyles.cardCounterWrapper}>
@@ -137,6 +131,7 @@ const RepositoryList = () => {
           <Text color='textSecondary'> Rating </Text>
         </View>
       </View>
+
     </View>
   );
 
@@ -149,6 +144,7 @@ const RepositoryList = () => {
         />
     </View>
   );
+
 };
 
 export default RepositoryList;

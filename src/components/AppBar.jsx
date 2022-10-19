@@ -27,9 +27,11 @@ const styles = StyleSheet.create({
 const AppBar = () => {
   return (
     <View style={{...styles.container, ...styles.appBarTheme}}> 
+
       <ScrollView horizontal> 
         <AppBarTab styles={styles}/>
       </ScrollView>
+      
     </View>
   );
 };
