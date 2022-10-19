@@ -1,100 +1,15 @@
+import { useState } from 'react';
+
 import { FlatList, View, StyleSheet , Image } from 'react-native';
 import Text from './Text';
 import theme from '../theme';
-
-
-const repositories = [
-  {
-    id: 'jaredpalmer.formik',
-    fullName: 'jaredpalmer/formik',
-    description: 'Build forms in React, without the tears',
-    language: 'TypeScript',
-    forksCount: 1589,
-    stargazersCount: 21553,
-    ratingAverage: 88,
-    reviewCount: 4,
-    ownerAvatarUrl: 'https://avatars2.githubusercontent.com/u/4060187?v=4',
-  },
-  {
-    id: 'rails.rails',
-    fullName: 'rails/rails',
-    description: 'Ruby on Rails',
-    language: 'Ruby',
-    forksCount: 18349,
-    stargazersCount: 45377,
-    ratingAverage: 100,
-    reviewCount: 2,
-    ownerAvatarUrl: 'https://avatars1.githubusercontent.com/u/4223?v=4',
-  },
-  {
-    id: 'django.django',
-    fullName: 'django/django',
-    description: 'The Web framework for perfectionists with deadlines.',
-    language: 'Python',
-    forksCount: 21015,
-    stargazersCount: 48496,
-    ratingAverage: 73,
-    reviewCount: 5,
-    ownerAvatarUrl: 'https://avatars2.githubusercontent.com/u/27804?v=4',
-  },
-  {
-    id: 'reduxjs.redux',
-    fullName: 'reduxjs/redux',
-    description: 'Predictable state container for JavaScript apps',
-    language: 'TypeScript',
-    forksCount: 13902,
-    stargazersCount: 52869,
-    ratingAverage: 0,
-    reviewCount: 0,
-    ownerAvatarUrl: 'https://avatars3.githubusercontent.com/u/13142323?v=4',
-  },{
-    id: 'jaredpalmer.formikaaa',
-    fullName: 'jaredpalmer/formik',
-    description: 'Build forms in React, without the tears',
-    language: 'TypeScript',
-    forksCount: 1589,
-    stargazersCount: 21553,
-    ratingAverage: 88,
-    reviewCount: 4,
-    ownerAvatarUrl: 'https://avatars2.githubusercontent.com/u/4060187?v=4',
-  },
-  {
-    id: 'rails.railsaa',
-    fullName: 'rails/rails',
-    description: 'Ruby on Rails',
-    language: 'Ruby',
-    forksCount: 18349,
-    stargazersCount: 45377,
-    ratingAverage: 100,
-    reviewCount: 2,
-    ownerAvatarUrl: 'https://avatars1.githubusercontent.com/u/4223?v=4',
-  },
-  {
-    id: 'django.djangoaa',
-    fullName: 'django/django',
-    description: 'The Web framework for perfectionists with deadlines.',
-    language: 'Python',
-    forksCount: 21015,
-    stargazersCount: 48496,
-    ratingAverage: 73,
-    reviewCount: 5,
-    ownerAvatarUrl: 'https://avatars2.githubusercontent.com/u/27804?v=4',
-  },
-  {
-    id: 'reduxjs.reduxaa',
-    fullName: 'reduxjs/redux',
-    description: 'Predictable state container for JavaScript apps',
-    language: 'TypeScript',
-    forksCount: 13902,
-    stargazersCount: 52869,
-    ratingAverage: 0,
-    reviewCount: 0,
-    ownerAvatarUrl: 'https://avatars3.githubusercontent.com/u/13142323?v=4',
-  },
-];
-
+import { useQuery } from '@apollo/client';
+import { GET_REPOSITORIES } from '../graphql/queries';
 
 const styles = StyleSheet.create({
+  container : {
+    marginBottom: 100,
+  },
   listBody:{
     backgroundColor: theme.colors.primaryBackground,
   },
@@ -152,7 +67,7 @@ const cardFooterStyles = StyleSheet.create({
   cardCounterWrapper: {
     alignItems: 'center',
   }
-})
+});
 
 const ItemSeparator = () => <View style={styles.separator} />;
 
@@ -160,10 +75,41 @@ const get1kcount = ( value )  => {
   return value > 1000? (value/1000).toFixed(1) + 'k' : value;
 }
 
+
 const RepositoryList = () => {
+  const [repositories, setRepositories] = useState();
+  console.log('💀 ~ file: RepositoryList.jsx ~ line 11 ~ RepositoryList ~ repositories', repositories)
+  const {data, error, loading } =  useQuery(GET_REPOSITORIES, {
+    fetchPolicy: 'cache-and-network',
+    // Other options
+  });
+
+  if(loading) {
+    return (
+      <Text> Loading Data</Text>
+    )
+  }
+  console.log(data);
+
+  // const fetchRepositories = async () => {
+    
+  //   const response = await fetch('http://192.168.68.63:5000/api/repositories');
+  //   const json = await response.json();
+
+  //   console.log(json);
+  //   setRepositories(json);
+  // };
+
+
+  // Get the nodes from the edges array
+  const repositoryNodes = data
+  ? data.repositories.edges.map(edge => edge.node)
+  : [];
+  console.log('💀 ~ file: RepositoryList.jsx ~ line 106 ~ RepositoryList ~ repositoryNodes', repositoryNodes)
 
   const renderItem = ({ item }) => (
     <View style ={ styles.repoCard}>
+      {/*  Display Project image, Project Name, Project Description and Language used */}
       <View style={styles.flexContainer}>
         <Image source={{uri : item.ownerAvatarUrl}} style = {imageStyles.thumbnail} />
         <View style={{paddingLeft:15 , alignItems:'flex-start', ...styles.flexContainerCardContent }}>
@@ -172,6 +118,7 @@ const RepositoryList = () => {
           <Text fonts='fontFamily' style={{...styles.languageStyle , marginBottom:5}}>{item.language}</Text>
         </View>
       </View>
+      {/*  Display counts for Stars, Forks, Reviews adnd Rating*/}
       <View style={{...cardFooterStyles.cardFooterFlexContainer, marginTop: 20}}> 
         <View style={cardFooterStyles.cardCounterWrapper}>
           <Text fontWeight='bold'>{get1kcount(item.stargazersCount)}</Text>
@@ -190,19 +137,16 @@ const RepositoryList = () => {
           <Text color='textSecondary'> Rating </Text>
         </View>
       </View>
-
     </View>
-    );
+  );
 
   return (
-    <View >
+    <View style={styles.container} >
       <FlatList
-        data={repositories}
+        data={repositoryNodes}
         ItemSeparatorComponent={ItemSeparator}
         renderItem={renderItem}
-        // other props
-      />
-
+        />
     </View>
   );
 };

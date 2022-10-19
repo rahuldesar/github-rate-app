@@ -7,6 +7,8 @@ import SignIn from './SignIn';
 
 import theme from '../theme';
 import PlatformInfo from './PlatformInfo';
+import QueriesData from './QueriesData';
+
 // import Text from './Text';
 
 const styles = StyleSheet.create({
@@ -27,6 +29,7 @@ const Main = () => {
         <Route path='/' element={<RepositoryList />} exact />
         <Route path='/signin' element={<SignIn />} exact />
         <Route path='/platformInfo' element={<PlatformInfo />} exact />
+        <Route path='/queries' element={<QueriesData />} exact />
         <Route path='*' element={<Navigate to='/' replace />}  />
       </Routes>
 

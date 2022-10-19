@@ -20,6 +20,11 @@ const AppBarTab = ({styles})  => {
           <Text style={styles.appBarTexts}> PlatformInfo </Text>
         </Link> 
       </Pressable>
+      <Pressable  > 
+        <Link to="/queries">
+          <Text style={styles.appBarTexts}> QueriesData </Text>
+        </Link> 
+      </Pressable>
     </>
     
   )
