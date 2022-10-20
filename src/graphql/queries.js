@@ -30,3 +30,14 @@ export const GET_REPOSITORIES = gql `
     }
   }
 `
+
+export const WHO_AM_I = gql`
+  query WhoAmI {
+    me {
+      id
+      username
+      createdAt
+      reviewCount
+    }
+  }
+`

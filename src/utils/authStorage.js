@@ -9,14 +9,15 @@ class AuthStorage {
     const tokenStored = await AsyncStorage.getItem(
       `${this.namespace}:token`,
     );
-    console.log('💀 ~ file: authStorage.js ~ line 12 ~ AuthStorage ~ getAccessToken ~ tokenStored', tokenStored)
 
     return tokenStored ? JSON.parse(tokenStored) : [];
   }
 
 
-  // * STORES AS {authenticate : { accessToken : " ....", __typename:"AuthenticatePayload"}}
-  // TODO : CAN BE REFACTORED WHEN NEEDED.
+  // * STORES only variable from accessToken : "......." of
+  // * {authenticate : { accessToken : " ....", __typename:"AuthenticatePayload"}}
+
+  // DONE : REFACTORED.
   async setAccessToken(accessToken){
     await AsyncStorage.setItem(
       `${this.namespace}:token`,
@@ -26,6 +27,10 @@ class AuthStorage {
 
   async removeAccessToken(){
     await AsyncStorage.removeItem(`${this.namespace}:token`);
+  }
+
+  async showAsyncStorage () { 
+    console.log(AsyncStorage);
   }
 
 }

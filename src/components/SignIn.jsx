@@ -1,8 +1,8 @@
 import { View, Pressable, StyleSheet } from "react-native";
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import AuthStorage from "./authStorage";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+// import AuthStorage from "../utils/authStorage";
+import { useNavigate } from "react-router-native";
 
 import Text from "./Text";
 import FormikTextInput from "./FormikTextInput";
@@ -39,8 +39,6 @@ const validationSchema = yup.object().shape({
 });
 
 
-
-
 const initialValues = {
   username: '',
   password: '',
@@ -62,11 +60,10 @@ const LoginForm = ({ onSubmit }) => {
 }
 
 
-
 const SignIn = () => {
   const [signIn] = useSignIn();
-  const user1 = new AuthStorage('user1');
-
+  // const user1 = new AuthStorage();
+  const navigate = useNavigate();
 
   const onSubmit =async(values)  => {
     const { username, password } = values;
@@ -74,10 +71,10 @@ const SignIn = () => {
     try {
       const { data } = await signIn({ username, password });
       console.log(data);
-      user1.setAccessToken(data);
-      const temp = await user1.getAccessToken();
-      console.log('💀 ~ file: SignIn.jsx ~ line 79 ~ onSubmit ~ temp', temp)
-
+      // ! NOT SURE IF I SHOULD REMOVE THIS >> BUT IT WORKS.
+      // * SETTING UP TOKEN AND RESETTING STORE IS DONT BY useSignIn hook.
+      // await user1.setAccessToken(data.authenticate.accessToken);
+      navigate('/');
     } catch (e) {
       console.log(e);
     }

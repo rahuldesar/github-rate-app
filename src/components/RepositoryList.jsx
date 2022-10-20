@@ -79,7 +79,6 @@ const get1kcount = ( value )  => {
 const RepositoryList = () => {
   // eslint-disable-next-line no-unused-vars
   const [repositories, setRepositories] = useState();
-  console.log('💀 ~ file: RepositoryList.jsx ~ line 11 ~ RepositoryList ~ repositories', repositories)
   // eslint-disable-next-line no-unused-vars
   const {data, error, loading } =  useQuery(GET_REPOSITORIES, {
     fetchPolicy: 'cache-and-network',
@@ -90,14 +89,12 @@ const RepositoryList = () => {
       <Text> Loading Data</Text>
     )
   }
-  console.log(data);
 
 
   // Get the nodes from the edges array
   const repositoryNodes = data
   ? data.repositories.edges.map(edge => edge.node)
   : [];
-  console.log('💀 ~ file: RepositoryList.jsx ~ line 106 ~ RepositoryList ~ repositoryNodes', repositoryNodes)
 
   const renderItem = ({ item }) => (
     <View style ={ styles.repoCard}>
